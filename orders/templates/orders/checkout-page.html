@@ -1,0 +1,253 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+{% block title %}
+    Just Django | Store        
+{% endblock title %}
+
+{% block content %}
+
+  <!--Main layout-->
+  <main class="mt-5 pt-4">
+    <div class="container wow fadeIn">
+
+      <!-- Heading -->
+      <h2 class="my-5 h2 text-center">Checkout form</h2>
+
+      <!--Grid row-->
+      <div class="row">
+
+        <!--Grid column-->
+        <div class="col-md-8 mb-4">
+
+          <!--Card-->
+          <div class="card">
+
+            <!--Card content-->
+            <form class="card-body" method="POST">
+              {% csrf_token %}
+            <!-- shipping form -->
+              <h3>Shipping Address</h3>
+              <div class="hidable_shipping_form">
+                <!--address-->
+                <div class="md-form mb-5">
+                  {{form.shipping_address}}
+                  <label for="id_shipping_address" class="">Street Address</label>
+                </div>
+
+                <!--address-2-->
+                <div class="md-form mb-5">
+                  {{form.shipping_address2}}
+                  <label for="id_shipping_address2" class="">Apartment Address</label>
+                </div>
+
+                <!--Grid row-->
+                  <div class="row">
+
+                    <!--Grid column-->
+                    <div class="col-lg-4 col-md-12 mb-4">
+
+                      <label for="id_country">Country</label>
+                      {{form.shipping_country}}
+                      
+                      <div class="invalid-feedback">
+                        Please select a valid country.
+                      </div>
+
+                    </div>
+                    <!--Grid column-->
+
+                    <!--Grid column-->
+                    <div class="col-lg-4 col-md-6 mb-4">
+
+                      <label for="id_shipping_state">State</label>
+                    {{form.shipping_state}}
+                    
+                      
+                      <div class="invalid-feedback">
+                        Please provide a valid state.
+                      </div>
+
+                    </div>
+                    <!--Grid column-->
+
+                    <!--Grid column-->
+                    <div class="col-lg-4 col-md-6 mb-4">
+
+                      <label for="id_shipping_zip_code">Zip</label>
+                      {{form.shipping_zip_code}}
+                      <div class="invalid-feedback">
+                        Zip code required.
+                      </div>
+
+                    </div>
+                    <!--Grid column-->
+
+                  </div>
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="same_as_shipping_address" name="same_as_shipping_address">
+                    <label class="custom-control-label" for="same_as_shipping_address">Billing address is the same as my Shipping address</label>
+                  </div>
+    
+                  <div class="custom-control custom-checkbox" >
+                    <input type="checkbox" class="custom-control-input" id="set_default_shipping" name="set_default_shipping">
+                    <label class="custom-control-label" for="set_default_shipping">Save this as default shipping address</label>
+                  </div>
+                <!--Grid row-->
+              </div>
+
+              
+             
+
+              
+
+              
+              {% if default_shipping_address %}
+              <div class="custom-control custom-checkbox" >
+                <input type="checkbox" class="custom-control-input" id="use_default_shipping" name="use_default_shipping">
+                <label class="custom-control-label" for="use_default_shipping">Use default shipping address: {{ default_shipping_address.street_address|truncatechars:10 }}</label>
+              </div>
+              {% endif %}
+                
+              <hr>
+              <!-- billing form -->
+              <h3 class="mt-3">Billing Address</h3>
+              <div class="hideable_billing_form">
+                <!--address-->
+                <div class="md-form mb-5">
+                  {{form.billing_address}}
+                  <label for="id_street_address" class="">Street Address</label>
+                </div>
+
+                <!--address-2-->
+                <div class="md-form mb-5">
+                  {{form.billing_address2}}
+                  <label for="id_apartment_address" class="">Apartment Address</label>
+                </div>
+
+                <!--Grid row-->
+                  <div class="row">
+
+                    <!--Grid column-->
+                    <div class="col-lg-4 col-md-12 mb-4">
+
+                      <label for="id_country">Country</label>
+                      {{form.billing_country}}
+                      
+                      <div class="invalid-feedback">
+                        Please select a valid country.
+                      </div>
+
+                    </div>
+                    <!--Grid column-->
+
+                    <!--Grid column-->
+                    <div class="col-lg-4 col-md-6 mb-4">
+
+                      <label for="id_state">State</label>
+                    {{form.billing_state}}
+                      
+                      <div class="invalid-feedback">
+                        Please provide a valid state.
+                      </div>
+
+                    </div>
+                    <!--Grid column-->
+
+                    <!--Grid column-->
+                    <div class="col-lg-4 col-md-6 mb-4">
+
+                      <label for="zip">Zip</label>
+                      
+                        {{form.billing_zip_code}}
+                      <div class="invalid-feedback">
+                        Zip code required.
+                      </div>
+
+                    </div>
+                    <!--Grid column-->
+
+                  </div>
+                <!--Grid row-->
+              <div class="custom-control custom-checkbox" >
+                <input type="checkbox" class="custom-control-input" id="set_default_billing" name="set_default_billing">
+                <label class="custom-control-label" for="set_default_billing">Save this as default billing address</label>
+              </div>
+
+
+              </div>
+              {% if default_billing_address %}
+              <div class="custom-control custom-checkbox" >
+                <input type="checkbox" class="custom-control-input" id="use_default_billing" name="use_default_billing">
+                <label class="custom-control-label" for="use_default_billing">Use default billing address: {{ default_billing_address.street_address|truncatechars:10 }}</label>
+              </div>
+              {% endif %}
+
+              <hr>
+              <h3>Payment Option</h3>
+              <div class="d-block my-3">
+                
+                {% for value, name in form.fields.payment_option.choices %}
+                <div class="custom-control custom-radio">
+                  <input type="radio" id="{{name}}" name="payment_option" value="{{value}}" class="custom-control-input" required>
+                  <label for="{{name}}" class="custom-control-label">{{name}}</label>
+                </div>
+                {% endfor %}
+                  
+              
+              </div>
+           
+              <hr class="mb-4">
+              <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+
+            </form>
+
+          </div>
+          <!--/.Card-->
+
+        </div>
+        <!--Grid column-->
+
+        <!--Grid column-->
+        <div class="col-md-4 mb-4">
+          {% include 'orders/snippets/side-order-summary.html' %}
+          {% include 'orders/snippets/promo-code.html' %}
+        </div>
+
+        <!--Grid column-->
+        
+      </div>
+      <!--Grid row-->
+
+    </div>
+  </main>
+  <!--Main layout-->
+
+  {% block extra_scripts %}
+        <script>
+          var hidable_shipping_form = $(".hidable_shipping_form");
+          var hideable_billing_form = $(".hideable_billing_form");
+
+          var use_default_billing = document.querySelector("input[name=use_default_billing]");
+          var use_default_shipping = document.querySelector("input[name=use_default_shipping]");
+
+          use_default_shipping.addEventListener("change", function () {
+            if(this.checked){
+              hidable_shipping_form.hide();
+            }else{
+              hidable_shipping_form.show();
+            }
+          })
+
+          use_default_billing.addEventListener("change", function () {
+            if(this.checked){
+              hideable_billing_form.hide();
+            }else{
+              hideable_billing_form.show();
+            }
+          })
+        </script>
+  {% endblock extra_scripts %}
+{% endblock content %}

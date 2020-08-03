@@ -1,0 +1,10 @@
+<form class="card p-2" method="POST" action="{% url 'orders:add_coupon' %}">
+  {% csrf_token %}
+    <div class="input-group">
+      {% comment %} <input type="text" class="form-control" placeholder="Promo code" aria-label="Recipient's username" aria-describedby="basic-addon2"> {% endcomment %}
+      {{couponForm.code}}
+      <div class="input-group-append">
+        <button class="btn btn-secondary btn-md waves-effect m-0" type="submit">Redeem</button>
+      </div>
+    </div>
+</form>
